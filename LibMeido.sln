@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibMeido", "LibMeido\LibMeido.csproj", "{4F8CE4E8-2F05-48D4-AF79-7A31473946C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibMeidoDemo", "LibMeidoDemo\LibMeidoDemo.csproj", "{98E58611-3824-4C13-9D40-5165EECE4D9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F8CE4E8-2F05-48D4-AF79-7A31473946C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F8CE4E8-2F05-48D4-AF79-7A31473946C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F8CE4E8-2F05-48D4-AF79-7A31473946C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F8CE4E8-2F05-48D4-AF79-7A31473946C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98E58611-3824-4C13-9D40-5165EECE4D9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98E58611-3824-4C13-9D40-5165EECE4D9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98E58611-3824-4C13-9D40-5165EECE4D9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98E58611-3824-4C13-9D40-5165EECE4D9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0BF57892-EFB7-4AF8-AF45-9757ABC74350}
+	EndGlobalSection
+EndGlobal

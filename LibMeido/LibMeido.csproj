@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net4.8</TargetFramework>
+    <LangVersion>10</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AssetsTools.NET" Version="2.0.12" />
+    <PackageReference Include="Mono.Cecil" Version="0.11.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CM3D2.Toolkit.Guest4168Branch">
+      <HintPath>Libs\CM3D2.Toolkit.Guest4168Branch.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

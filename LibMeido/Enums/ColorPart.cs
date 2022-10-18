@@ -1,0 +1,19 @@
+﻿namespace LibMeido;
+
+public enum ColorPart {
+	NONE = -1,
+	EYE_L,
+	EYE_R,
+	HAIR,
+	EYE_BROW,
+	UNDER_HAIR,
+	SKIN,
+	NIPPLE,
+	HAIR_OUTLINE,
+	SKIN_OUTLINE,
+	EYE_WHITE,
+	MATSUGE_UP,
+	MATSUGE_LOW,
+	FUTAE,
+	MAX,
+}
