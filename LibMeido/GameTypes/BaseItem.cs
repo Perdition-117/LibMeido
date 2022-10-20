@@ -23,6 +23,10 @@ public class BaseItem {
 		return MaidProp.DefaultItems.TryGetValue(Mpn, out var item) && FileName.ToLower() == item;
 	}
 
+	public static bool IsDefaultItem(string fileName) {
+		return MaidProp.DefaultItems.ContainsValue(fileName.ToLower());
+	}
+
 	public bool TryGetParentItemFileName(out string parentItemFileName) {
 		parentItemFileName = null;
 		if ((MpnTypeRange)Mpn is (< MpnTypeRange.WearStart or > MpnTypeRange.WearEnd) and (< MpnTypeRange.SetStart or > MpnTypeRange.SetEnd)) {
