@@ -54,5 +54,5 @@ static public class LocalizationManager {
 		}
 	}
 
-	public static bool TryGetTranslation(string term, out string translation) => Terms.TryGetValue(term, out translation);
+	public static bool TryGetTranslation(string term, out string translation) => Terms.TryGetValue(term, out translation) && translation != string.Empty;
 }
