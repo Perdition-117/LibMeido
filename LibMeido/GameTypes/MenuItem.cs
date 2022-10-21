@@ -1,4 +1,6 @@
-﻿namespace LibMeido;
+﻿using System.Globalization;
+
+namespace LibMeido;
 
 public class MenuItem : BaseItem {
 	private const string FileHeader = "CM3D2_MENU";
@@ -108,7 +110,7 @@ public class MenuItem : BaseItem {
 						MaskItems.Add(value);
 						break;
 					case PropertyNames.Priority:
-						Priority = float.Parse(value);
+						Priority = float.Parse(value, CultureInfo.InvariantCulture);
 						break;
 				}
 			}
