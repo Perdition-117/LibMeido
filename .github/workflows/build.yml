@@ -26,16 +26,16 @@ jobs:
         dotnet-quality: ga
 
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore LibMeido
       
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build LibMeido --configuration Release --no-restore
       
     - name: Create the package
       run: |
         $archiveName = "$env:OUTPUT_NAME-$env:GITHUB_REF_NAME.zip"
         Add-Content -Value "ARCHIVE_NAME=$archiveName" -Path $env:GITHUB_ENV
-        Compress-Archive -Path bin\Release\net35\$env:OUTPUT_NAME.dll, bin\Release\net35\CM3D2.Toolkit.Guest4168Branch.dll -DestinationPath $archiveName -CompressionLevel NoCompression
+        Compress-Archive -Path LibMeido\bin\Release\net35\$env:OUTPUT_NAME.dll, LibMeido\bin\Release\net35\CM3D2.Toolkit.Guest4168Branch.dll -DestinationPath $archiveName -CompressionLevel NoCompression
 
     - name: Release
       uses: softprops/action-gh-release@v1
