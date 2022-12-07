@@ -1,8 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <LangVersion>10</LangVersion>
+    <Product>LibMeido</Product>
+    <Version>0.1.0</Version>
+    <Authors>Perdition</Authors>
+    <PackageProjectUrl>https://github.com/Perdition-117/LibMeido</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Perdition-117/LibMeido.git</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
