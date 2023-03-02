@@ -307,6 +307,8 @@ public class MaidProp {
 		[Mpn.underhair] = "_i_underhair_del.menu",
 		[Mpn.hokuro] = "_i_hokuro_del.menu",
 		[Mpn.lip] = "_i_lip_del.menu",
+		[Mpn.nose] = "nose_del_i_.menu",
+		[Mpn.facegloss] = "facegloss_del_i_.menu",
 		[Mpn.matsuge_low] = "_i_eyelashesunder_del.menu",
 		[Mpn.futae] = "_i_eyelid_del.menu",
 		[Mpn.wear] = "_i_wear_del.menu",
