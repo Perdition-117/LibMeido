@@ -299,6 +299,7 @@ public class MaidProp {
 	}
 
 	public static readonly Dictionary<Mpn, string> DefaultItems = new() {
+		[Mpn.body] = "body001_i_.menu",
 		[Mpn.hairt] = "_i_hairt_del.menu",
 		[Mpn.hairs] = "_i_hairs_del.menu",
 		[Mpn.hairaho] = "_i_hairaho_del.menu",
