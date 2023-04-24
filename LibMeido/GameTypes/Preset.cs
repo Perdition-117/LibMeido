@@ -21,7 +21,7 @@ public class Preset {
 
 		Deserialize(reader);
 
-		FileName = System.IO.Path.GetFileName(fileName);
+		FileName = Path.GetFileName(fileName);
 
 		if (Version >= 2) {
 			PartsColor = ColorParts;

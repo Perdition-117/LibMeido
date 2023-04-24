@@ -77,7 +77,7 @@ public class MenuItem : BaseItem {
 							var pcMultiColorID = ColorPart.NONE;
 							var colorName = values[4];
 							if (!Enum.TryParse(colorName.ToUpper(), out pcMultiColorID)) {
-								throw new Exception("There is no infinite color ID." + colorName);
+								throw new Exception($"Invalid infinite color ID {colorName}.");
 							}
 							MultiColorId = pcMultiColorID;
 						}

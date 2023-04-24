@@ -8,7 +8,9 @@ static public class LocalizationManager {
 	private const string LanguageCodeEn = "en";
 
 	private static readonly AssetsManager AssetsManager = new();
-	private static readonly Dictionary<string, string> Terms = new();
+	private static readonly Dictionary<string, Dictionary<string, string>> Terms = new();
+
+	public static Dictionary<string, Dictionary<string, string>> GetTerms() => Terms;
 
 	public static void LoadTranslations(string filePath) {
 		var afs = new ArcFileSystem();
@@ -34,14 +36,11 @@ static public class LocalizationManager {
 			// load the monobehaviour data and get the first field
 			var baseField = AssetsManager.GetTypeInstance(fileInstance.file, info).GetBaseField();
 
-			var languageIndex = -1;
+			var languageIndices = new Dictionary<int, string>();
 
 			var languages = baseField["mLanguages"];
 			for (var i = 0; i < languages[0].childrenCount; i++) {
-				if (languages[0][i]["Code"].value.AsString() == LanguageCodeEn) {
-					languageIndex = i;
-					break;
-				}
+				languageIndices.Add(i, languages[0][i]["Code"].value.AsString());
 			}
 
 			foreach (var termData in baseField["mTerms"][0].children) {
@@ -49,10 +48,22 @@ static public class LocalizationManager {
 				if (Terms.ContainsKey(term)) {
 					Terms.Remove(term);
 				}
-				Terms.Add(term, termData["Languages"][0][languageIndex].value.AsString());
+				var translations = new Dictionary<string, string>();
+				foreach (var language in languageIndices) {
+					translations.Add(language.Value, termData["Languages"][0][language.Key].value.AsString());
+				}
+				Terms.Add(term, translations);
 			}
 		}
 	}
 
-	public static bool TryGetTranslation(string term, out string translation) => Terms.TryGetValue(term, out translation) && translation != string.Empty;
+	public static bool TryGetTranslation(string term, out string translation) {
+		translation = string.Empty;
+		return Terms.TryGetValue(term, out var translations) && translations.TryGetValue(LanguageCodeEn, out translation) && translation != string.Empty;
+	}
+
+	public static bool TryGetTranslation(string term, string languageCode, out string translation) {
+		translation = string.Empty;
+		return Terms.TryGetValue(term, out var translations) && translations.TryGetValue(languageCode, out translation) && translation != string.Empty;
+	}
 }
