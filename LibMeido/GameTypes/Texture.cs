@@ -1,4 +1,6 @@
-﻿namespace LibMeido;
+﻿using LibMeido.UnityStubs;
+
+namespace LibMeido;
 
 public class Texture {
 	private const string FileHeader = "CM3D2_TEX";
@@ -8,7 +10,7 @@ public class Texture {
 	public List<SubTexture> Textures { get; set; }
 	public int Width { get; set; }
 	public int Height { get; set; }
-	public int TextureFormat { get; set; }
+	public TextureFormat TextureFormat { get; set; }
 	public byte[] ImageBuffer { get; set; }
 
 	public Texture(string path, byte[] data) {
@@ -68,7 +70,7 @@ public class Texture {
 			}
 			Width = binaryReader.ReadInt32();
 			Height = binaryReader.ReadInt32();
-			TextureFormat = binaryReader.ReadInt32();
+			TextureFormat = (TextureFormat)binaryReader.ReadInt32();
 		}
 
 		var imageSize = binaryReader.ReadInt32();
@@ -91,7 +93,7 @@ public class Texture {
 			}
 			binaryWriter.Write(Width);
 			binaryWriter.Write(Height);
-			binaryWriter.Write(TextureFormat);
+			binaryWriter.Write((int)TextureFormat);
 		}
 
 		binaryWriter.Write(ImageBuffer.Length);
