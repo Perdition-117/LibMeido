@@ -7,6 +7,9 @@ public class MaidPropList {
 	private OrderedDictionary<Mpn, MaidProp> _props;
 
 	public List<MaidProp> Props { get; set; }
+	public MaidProp[] MaidPropOther { get; private set; } = Array.Empty<MaidProp>();
+	public byte[] PartsColorOtherBin { get; private set; } = Array.Empty<byte>();
+	public byte[] CrcPresetBin { get; private set; } = Array.Empty<byte>();
 
 	public MaidPropList(BinaryReader buffer) {
 		Deserialize(buffer);
@@ -95,11 +98,34 @@ public class MaidPropList {
 		_props = new();
 		for (var i = 0; i < numProps; i++) {
 			if (Version >= 4) {
-				var text = reader.ReadString();
+				var propName = reader.ReadString();
 			}
 			var maidProp = new MaidProp(reader);
 			if (!_props.ContainsKey((Mpn)maidProp.Index)) {
 				_props.Add((Mpn)maidProp.Index, maidProp);
+			}
+		}
+
+		if ((2001 <= Version && Version < 20000) || Version >= 30000) {
+			var maidPropOtherLength = reader.ReadInt32();
+			if (maidPropOtherLength != 0) {
+				MaidPropOther = new MaidProp[maidPropOtherLength];
+				for (var i = 0; i < maidPropOtherLength; i++) {
+					var propName = reader.ReadString();
+					var maidProp = new MaidProp();
+					maidProp.Deserialize(reader);
+					MaidPropOther[i] = maidProp;
+				}
+			}
+
+			var partsColorOtherBinLength = reader.ReadInt32();
+			if (partsColorOtherBinLength != 0) {
+				PartsColorOtherBin = reader.ReadBytes(partsColorOtherBinLength);
+			}
+
+			var crcPresetBinLength = reader.ReadInt32();
+			if (crcPresetBinLength != 0) {
+				CrcPresetBin = reader.ReadBytes(crcPresetBinLength);
 			}
 		}
 	}
@@ -114,6 +140,20 @@ public class MaidPropList {
 				writer.Write(prop.Key.ToString());
 			}
 			prop.Value.Serialize(writer);
+		}
+
+		if ((2001 <= Version && Version < 20000) || Version >= 30000) {
+			writer.Write(MaidPropOther.Length);
+			foreach (var maidProp in MaidPropOther) {
+				writer.Write(maidProp.Name);
+				maidProp.Serialize(writer);
+			}
+
+			writer.Write(PartsColorOtherBin.Length);
+			writer.Write(PartsColorOtherBin);
+
+			writer.Write(CrcPresetBin.Length);
+			writer.Write(CrcPresetBin);
 		}
 	}
 }

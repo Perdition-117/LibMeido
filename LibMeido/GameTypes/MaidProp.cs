@@ -19,6 +19,7 @@ public class MaidProp {
 	public bool Dut { get; set; }
 	public int Min { get; set; }
 	public int Max { get; set; }
+	public bool IsCrcProp { get; set; }
 	public List<SubProp> SubProps { get; } = new();
 	public List<Bone> Bones { get; } = new();
 	public List<Vertex> Vertices { get; } = new();
@@ -139,11 +140,22 @@ public class MaidProp {
 			}
 		}
 
+		Slot ReadSlot() {
+			var slot = reader.ReadInt32();
+			if ((2003 <= Version && Version < 20000) || Version >= 30000) {
+				var slotName = reader.ReadString();
+				return (Slot)Enum.Parse(typeof(Slot), slotName, true);
+			} else {
+				var oldSlotID = (SlotOld)slot;
+				return (Slot)Enum.Parse(typeof(Slot), oldSlotID.ToString(), true);
+			}
+		};
+
 		if (Version >= 200) {
 			var numBones = reader.ReadInt32();
 			for (var i = 0; i < numBones; i++) {
 				Bones.Add(new() {
-					Slot = (Slot)reader.ReadInt32(),
+					Slot = ReadSlot(),
 					Key = reader.ReadInt32(),
 					Enabled = reader.ReadBoolean(),
 					Position = reader.ReadVector3(),
@@ -155,7 +167,7 @@ public class MaidProp {
 			var numVertices = reader.ReadInt32();
 			for (var i = 0; i < numVertices; i++) {
 				var vertex = new Vertex {
-					Slot = (Slot)reader.ReadInt32(),
+					Slot = ReadSlot(),
 				};
 				var numSubVertices = reader.ReadInt32();
 				vertex.Vertices = new();
@@ -177,7 +189,7 @@ public class MaidProp {
 			var numMaterialProps = reader.ReadInt32();
 			for (var i = 0; i < numMaterialProps; i++) {
 				MaterialProps.Add(new() {
-					Slot = (Slot)reader.ReadInt32(),
+					Slot = ReadSlot(),
 					Key = reader.ReadInt32(),
 					MatNo = reader.ReadInt32(),
 					PropName = reader.ReadString(),
@@ -190,7 +202,7 @@ public class MaidProp {
 				var numBoneLengths = reader.ReadInt32();
 				for (var i = 0; i < numBoneLengths; i++) {
 					var boneLength = new BoneLength {
-						Slot = (Slot)reader.ReadInt32(),
+						Slot = ReadSlot(),
 						Key = reader.ReadInt32(),
 						Num = reader.ReadInt32(),
 						Lengths = new(),
@@ -203,6 +215,10 @@ public class MaidProp {
 					BoneLengths.Add(boneLength);
 				}
 			}
+		}
+
+		if ((2003 <= Version && Version < 20000) || Version >= 30000) {
+			IsCrcProp = reader.ReadBoolean();
 		}
 	}
 
@@ -240,10 +256,21 @@ public class MaidProp {
 			}
 		}
 
+		void WriteSlot(Slot slot) {
+			if ((2003 <= Version && Version < 20000) || Version >= 30000) {
+				writer.Write((int)slot);
+				writer.Write(slot.ToString());
+			} else {
+				var oldSlotID = (SlotOld)slot;
+				slot = (Slot)Enum.Parse(typeof(Slot), oldSlotID.ToString(), true);
+				writer.Write((int)slot);
+			}
+		};
+
 		if (Version >= 200) {
 			writer.Write(Bones.Count);
 			foreach (var bone in Bones) {
-				writer.Write((int)bone.Slot);
+				WriteSlot(bone.Slot);
 				writer.Write(bone.Key);
 				writer.Write(bone.Enabled);
 
@@ -254,7 +281,7 @@ public class MaidProp {
 
 			writer.Write(Vertices.Count);
 			foreach (var v in Vertices) {
-				writer.Write((int)v.Slot);
+				WriteSlot(v.Slot);
 				writer.Write(v.Vertices.Count);
 				foreach (var v2 in v.Vertices) {
 					writer.Write(v2.Slot);
@@ -271,7 +298,7 @@ public class MaidProp {
 
 			writer.Write(MaterialProps.Count);
 			foreach (var materialProp in MaterialProps) {
-				writer.Write((int)materialProp.Slot);
+				WriteSlot(materialProp.Slot);
 				writer.Write(materialProp.Key);
 				writer.Write(materialProp.MatNo);
 				writer.Write(materialProp.PropName);
@@ -282,7 +309,7 @@ public class MaidProp {
 			if (Version >= 213) {
 				writer.Write(BoneLengths.Count);
 				foreach (var boneLength in BoneLengths) {
-					writer.Write((int)boneLength.Slot);
+					WriteSlot(boneLength.Slot);
 					writer.Write(boneLength.Key);
 					writer.Write(boneLength.Lengths.Count);
 					foreach (var d in boneLength.Lengths) {
@@ -291,6 +318,10 @@ public class MaidProp {
 					}
 				}
 			}
+		}
+
+		if ((2003 <= Version && Version < 20000) || Version >= 30000) {
+			writer.Write(IsCrcProp);
 		}
 	}
 
